@@ -46,7 +46,7 @@ explore: aggr_siteid_event_types_daily {}
 
 #-- explore: siteid_event_types_by_min {}
 
-#-- explore: aggr_campaigns_daily {}
+explore: aggr_campaigns_daily {}
 
 # explore: aggr_campaigns_hourly {}
 

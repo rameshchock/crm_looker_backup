@@ -52,6 +52,10 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "nudgespot::message_opened"
     }
+    drill_fields: [daily_msgs_open*]
+  }
+  set: daily_msgs_open {
+    fields: [events_date, site_id, messages_opened]
   }
 
   measure: messages_skipped {
@@ -74,6 +78,10 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "nudgespot::message_sent"
     }
+    drill_fields: [daily_msgs_sent*]
+  }
+  set: daily_msgs_sent {
+    fields: [events_date, site_id, messages_sent]
   }
 
   measure: messages_clicked {
@@ -85,6 +93,10 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "nudgespot::message_clicked"
     }
+    drill_fields: [daily_msgs_clicked*]
+  }
+  set: daily_msgs_clicked {
+    fields: [events_date, site_id, messages_clicked]
   }
 
   measure: messages_bounced {
@@ -129,7 +141,12 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "system::message_delivered"
     }
+    drill_fields: [daily_msgs_delivered*]
   }
+  set: daily_msgs_delivered {
+    fields: [events_date, site_id, messages_delivered]
+  }
+
 
   measure: unsubscribed {
     view_label: "System events"
@@ -151,7 +168,12 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "bt_recset_request"
     }
+    drill_fields: [daily_recset_events*]
   }
+set: daily_recset_events {
+    fields: [events_date, site_id, bt_recset_requests]
+    }
+
 
   measure: bt_recs_served {
     view_label: "BT events"
@@ -162,7 +184,12 @@ view: aggr_siteid_event_types_daily {
       field: event_type
       value: "bt_rec_served"
     }
+    drill_fields: [daily_recs_served*]
   }
+  set: daily_recs_served {
+    fields: [events_date, site_id, bt_recs_served]
+  }
+
 
   measure: bt_rec_clicks {
     view_label: "BT events"
