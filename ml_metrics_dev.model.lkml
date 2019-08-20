@@ -21,3 +21,5 @@ explore: event_import_last_5_mins {}
 explore: event_import_last_24_hours {}
 
 explore: last_2_hours_view {}
+
+explore: calculated_last_2hours_view {}
