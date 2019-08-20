@@ -74,4 +74,4 @@ explore: v_service_uptime_report_by_period {}
 
 explore: v_agg_site_event_stats {}
 
-#explore: v_site_event_stats {}
+explore: v_site_event_stats {}
