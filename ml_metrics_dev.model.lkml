@@ -29,3 +29,5 @@ explore: calculated_last_1_hour_view {}
 explore: calculated_last_24_hours_view {}
 
 explore: calculated_last_5_mins_view {}
+
+explore: calculated_last_5_mins_with_site_id {}
