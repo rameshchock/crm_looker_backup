@@ -14,7 +14,7 @@ view: calculated_last_24_hours_with_site_id {
               property_id = 1 or
               property_id = 2
               ) and
-              cast(value as timestamp) >= CURRENT_TIMESTAMP - interval ''24 H''
+              cast(value as timestamp) >= CURRENT_TIMESTAMP - interval '{% parameter metric_selector %}'
               and cast(value as timestamp) < CURRENT_TIMESTAMP
             ) and
             property_id in
@@ -36,7 +36,7 @@ view: calculated_last_24_hours_with_site_id {
               property_id = 1 or
               property_id = 2
               ) and
-              cast(value as timestamp) >= CURRENT_TIMESTAMP - interval ''24 H''
+              cast(value as timestamp) >= CURRENT_TIMESTAMP - interval '{% parameter metric_selector %}'
               and cast(value as timestamp) < CURRENT_TIMESTAMP
             ) and
             property_id in
@@ -96,6 +96,51 @@ GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14
 ORDER BY 1
 LIMIT 500
  ;;
+  }
+
+  parameter: metric_selector {
+    type: string
+    label: "Predefined filter"
+    allowed_value: {
+      label: "5 minutes"
+      value: "5 minutes"
+    }
+    allowed_value: {
+      label: "15 minutes"
+      value: "15 minutes"
+    }
+    allowed_value: {
+      label: "30 minutes"
+      value: "30 minutes"
+    }
+    allowed_value: {
+      label: "1 hour"
+      value: "1 H"
+    }
+    allowed_value: {
+      label: "4 hours"
+      value: "4 H"
+    }
+    allowed_value: {
+      label: "8 hours"
+      value: "8 H"
+    }
+    allowed_value: {
+      label: "12 hours"
+      value: "12 H"
+    }
+    allowed_value: {
+      label: "1 day"
+      value: "24 H"
+    }
+    allowed_value: {
+      label: "3 days"
+      value: "72 H"
+    }
+    allowed_value: {
+      label: "5 days"
+      value: "120 H"
+    }
   }
 
   measure: count {
