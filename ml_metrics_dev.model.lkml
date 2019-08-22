@@ -14,24 +14,4 @@ explore: metric_events {}
 
 explore: metric_property {}
 
-explore: event_import_jobs_last_1_hour {}
-
-explore: event_import_last_5_mins {}
-
-explore: event_import_last_24_hours {}
-
-explore: last_2_hours_view {}
-
-explore: calculated_last_2hours_view {}
-
-explore: calculated_last_1_hour_view {}
-
-explore: calculated_last_24_hours_view {}
-
-explore: calculated_last_5_mins_view {}
-
-explore: calculated_last_5_mins_with_site_id {}
-
-explore: calculated_last_1_hour_with_site_id {}
-
 explore: calculated_last_24_hours_with_site_id {}

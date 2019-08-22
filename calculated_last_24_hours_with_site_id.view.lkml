@@ -11,8 +11,14 @@ view: calculated_last_24_hours_with_site_id {
             from metric_events
             where
               (
-              property_id = 1 or
-              property_id = 2
+              property_id = (
+                select id from metric_property
+                where
+                  category = ''event_import'' and
+                  module_name = ''ftp-import-monitor'' and
+                  property_name = ''end_time''
+                limit 1
+              )
               ) and
               cast(value as timestamp) >= CURRENT_TIMESTAMP - interval '{% parameter metric_selector %}'
               and cast(value as timestamp) < CURRENT_TIMESTAMP
@@ -33,8 +39,14 @@ view: calculated_last_24_hours_with_site_id {
             from metric_events
             where
               (
-              property_id = 1 or
-              property_id = 2
+              property_id = (
+                select id from metric_property
+                where
+                  category = ''event_import'' and
+                  module_name = ''ftp-import-monitor'' and
+                  property_name = ''end_time''
+                limit 1
+              )
               ) and
               cast(value as timestamp) >= CURRENT_TIMESTAMP - interval '{% parameter metric_selector %}'
               and cast(value as timestamp) < CURRENT_TIMESTAMP
@@ -94,7 +106,6 @@ select
 FROM calculated_view
 GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14
 ORDER BY 1
-LIMIT 500
  ;;
   }
 
