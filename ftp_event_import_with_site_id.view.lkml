@@ -1,13 +1,13 @@
-view: calculated_last_24_hours_with_site_id {
+view: ftp_event_import_with_site_id {
   derived_table: {
     sql: WITH calculated_view AS (WITH crosstab_view AS (select *
       from crosstab (
           '
-      select filename,property_id,max(value)
+      select metric_context_key,property_id,max(value)
               from metric_events
           where
-            filename in (
-            select distinct filename
+            metric_context_key in (
+            select distinct metric_context_key
             from metric_events
             where
               (
@@ -15,8 +15,8 @@ view: calculated_last_24_hours_with_site_id {
                 select id from metric_property
                 where
                   category = ''event_import'' and
-                  module_name = ''ftp-import-monitor'' and
-                  property_name = ''end_time''
+                  module_name = ''ftp_event_import'' and
+                  property_name = ''process_end_time''
                 limit 1
               )
               ) and
@@ -32,10 +32,10 @@ view: calculated_last_24_hours_with_site_id {
             )
           group by 1,2
       UNION
-      select filename, property_id, cast(sum(cast(value as integer)) as varchar) as value from metric_events
+      select metric_context_key, property_id, cast(sum(cast(value as integer)) as varchar) as value from metric_events
           where
-            filename in (
-            select distinct filename
+            metric_context_key in (
+            select distinct metric_context_key
             from metric_events
             where
               (
@@ -43,8 +43,8 @@ view: calculated_last_24_hours_with_site_id {
                 select id from metric_property
                 where
                   category = ''event_import'' and
-                  module_name = ''ftp-import-monitor'' and
-                  property_name = ''end_time''
+                  module_name = ''ftp_event_import'' and
+                  property_name = ''process_end_time''
                 limit 1
               )
               ) and
@@ -62,14 +62,17 @@ view: calculated_last_24_hours_with_site_id {
       order by 1,2
 
         ',
-        'select id from metric_property order by 1 ')
-          AS (filename varchar, start_time varchar, end_time varchar, total varchar,
+        'select id from metric_property
+        where
+          category = ''event_import''
+        order by 1 ')
+          AS (metric_context_key varchar, start_time varchar, end_time varchar, total varchar,
             success varchar, failure varchar,
             sf_last_seeen varchar, sf_count varchar,
             athena_last_seen varchar, athena_count varchar, drop_time varchar)
        )
 SELECT
-  crosstab_view.filename  AS "crosstab_view.filename",
+  crosstab_view.metric_context_key  AS "crosstab_view.metric_context_key",
   crosstab_view.total  AS "crosstab_view.total",
   crosstab_view.drop_time  AS "crosstab_view.drop_time",
   crosstab_view.success  AS "crosstab_view.success",
@@ -84,13 +87,13 @@ SELECT
   crosstab_view.athena_last_seen  AS "crosstab_view.athena_last_seen",
   metric_events.site_id as "site_id"
 FROM crosstab_view
-join metric_events on crosstab_view.filename=metric_events.filename
+join metric_events on crosstab_view.metric_context_key=metric_events.metric_context_key
 GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13,14
 ORDER BY 1
  )
 select
   calculated_view."site_id",
-  calculated_view."crosstab_view.filename"  AS "calculated_view.crosstab_view_filename",
+  calculated_view."crosstab_view.metric_context_key"  AS "calculated_view.crosstab_view_filename",
   calculated_view."crosstab_view.total"  AS "calculated_view.crosstab_view_total",
   calculated_view."crosstab_view.drop_time"  AS "calculated_view.crosstab_view_drop_time",
   calculated_view."crosstab_view.success"  AS "calculated_view.crosstab_view_success",
